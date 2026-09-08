@@ -30,7 +30,7 @@ This is deliberately being approached in stages rather than as a "material syste
 | Experiment | Question |
 |---|---|
 | [001](docs/experiments/001-rigid-vs-rubber-physical-behaviour.md) | Does changing a Rigidbody's physical properties from rigid-like to rubber-like produce meaningfully different and interesting physical behaviour? |
-| 002 | Can the player deliberately control and exploit that behaviour? |
+| [002](docs/experiments/002-controlled-bounce-traversal.md) | Can the player deliberately control and exploit that behaviour? |
 | 003 | Does *timing* the transformation create meaningful skill and interesting decisions? |
 
 Each experiment must answer its own question before the next one starts. A generalised

@@ -1,6 +1,6 @@
 # Experiment 001 — Rigid vs rubber physical behaviour
 
-**Status:** Implemented, awaiting a run in the Unity Editor
+**Status:** Run 2026-09-09. Concluded: proceed to Experiment 002.
 **Scope:** Physics only. No player control, no transformation timing, no gameplay design.
 
 This experiment deliberately tests *the physics*, not *the mechanic*. Nothing here involves
@@ -286,11 +286,55 @@ believed to be true that should be confirmed rather than assumed.
 
 ## 10. Result
 
-*To be filled in after running. Record observed behaviour first, then the conclusion — in that
-order, and do not edit sections 1–9 after starting.*
+Run in the Unity Editor on 2026-09-09. Observations reported by the developer; the analysis
+below was done afterwards against the recorded configuration.
 
 **Observed:**
 
+1. Horizontal direction can be controlled while bouncing. Yes.
+2. Higher impact speed produces a stronger bounce. Yes.
+3. Successive bounce chaining is difficult. Two successive bounces were achieved; three could
+   not be achieved consistently despite many attempts.
+4. Whether switching to rubber at a specific moment matters was not established.
+
 **Conclusion:**
 
-**Decision:** proceed to 002 / open 001b / redesign / abandon
+H1 is supported. H2 was not measured in isolation. H3 is superseded by a larger effect that the
+design missed, described below.
+
+**The two-bounce ceiling is almost certainly a configuration artefact, not a skill ceiling.**
+
+Section 4 fixed every combine mode at `Average` for reproducibility, and section 3 gave the
+`Neutral` environment material a bounciness of 0. Under `Average`, PhysX combines the two
+colliders' values, so the restitution actually in force throughout this experiment was:
+
+    e = (0.85 + 0.0) / 2 = 0.425
+
+not the 0.85 written on the Rubber material. Every apex prediction in section 6 assumed 0.85 and
+is therefore wrong. Recomputing at e = 0.425, with the bounce threshold of 2 m/s ending the
+sequence:
+
+| | e used | bounces from 5 m | apex sequence |
+|---|---|---|---|
+| As configured (`Average`) | 0.425 | **2** | 0.90, 0.16 |
+| If `bounceCombine = Maximum` | 0.85 | 10 | 3.61, 2.61, 1.89, 1.36, 0.98, 0.71, 0.51, 0.37, 0.27, 0.19 |
+
+The configured setup permits exactly two bounces. That is precisely what was observed, and it
+matches observation 3 closely enough that it should be treated as the leading explanation rather
+than a coincidence.
+
+This is a mistake in the experiment design, not in the mechanic. `Average` was chosen to remove
+one class of confusion and it did, but it also meant the independent variable was never applied
+at the value written on it. It is worth noting *why* `Maximum` is arguably the physically correct
+choice here as well: a rubber ball bounces off concrete because the **ball** is rubber, not
+because of the average of ball and concrete. `Maximum` expresses "whichever surface is bouncier
+governs the bounce", which is what the mechanic means.
+
+**Unverified.** Sections 9.1 to 9.9 were not reported back, so the physics backend, the Physics
+Material asset extension, the Unity 6 API names and the pre- versus post-solve question in
+`OnCollisionEnter` all remain open. The numeric predictions in section 6 were never checked
+against a logged run, and the drop/wall/slope summaries were not captured.
+
+**Decision:** proceed to Experiment 002, carrying the combine-mode question forward as its first
+controlled variable. The difficulty observed here must be attributed before player skill can be
+evaluated at all.

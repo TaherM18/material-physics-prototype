@@ -40,4 +40,5 @@ cannot be quietly reinterpreted as a success.
 
 | # | Title | Status |
 |---|---|---|
-| [001](001-rigid-vs-rubber-physical-behaviour.md) | Rigid vs rubber physical behaviour | Implemented, awaiting run |
+| [001](001-rigid-vs-rubber-physical-behaviour.md) | Rigid vs rubber physical behaviour | Run 2026-09-09, concluded |
+| [002](002-controlled-bounce-traversal.md) | Controlled bounce traversal | Implemented, awaiting run |

@@ -83,6 +83,26 @@ namespace Experiment001
 
         public void SetState(PhysicalState state) => Apply(state);
 
+        /// <summary>
+        /// Replaces the Physics Material for one state at runtime, and re-applies immediately if
+        /// that state is currently active.
+        /// <para>
+        /// Added for Experiment 002, which needs to A/B two rubber materials that differ only in
+        /// bounce combine mode. Note that this swaps <em>which asset is referenced</em>; it never
+        /// writes to a material asset, because mutating a PhysicsMaterial at runtime in the editor
+        /// would silently edit the asset on disk and contaminate every later run.
+        /// </para>
+        /// </summary>
+        public void OverrideMaterial(PhysicalState state, PhysicsMaterial material)
+        {
+            ConfigFor(state).physicsMaterial = material;
+
+            if (CurrentState == state)
+            {
+                Apply(state);
+            }
+        }
+
         public void Toggle()
             => Apply(CurrentState == PhysicalState.Rigid ? PhysicalState.Rubber : PhysicalState.Rigid);
 
