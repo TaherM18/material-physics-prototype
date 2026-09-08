@@ -40,4 +40,4 @@ cannot be quietly reinterpreted as a success.
 
 | # | Title | Status |
 |---|---|---|
-| 001 | Rigid vs rubber physical behaviour | Not yet designed |
+| [001](001-rigid-vs-rubber-physical-behaviour.md) | Rigid vs rubber physical behaviour | Designed, not yet run |
